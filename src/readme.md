@@ -1,0 +1,1 @@
+create a navigation drawer and move from the drawer to a stack screen. In the drawer.screen, include ur stackscreen a nd the first screen on your stackscreen is dshown first by default
