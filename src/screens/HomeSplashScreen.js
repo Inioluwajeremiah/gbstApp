@@ -17,7 +17,7 @@ const HomeSplashScreen = ({navigation}) => {
             index: 0,
             routes: [{ name: 'HomeNav'}],
           });
-        }, 3000); // delay navigation for 3 seconds
+        }, 500); // delay navigation for 3 seconds
     
         return () => clearTimeout(timer); // clear timeout on unmount
       }, []);

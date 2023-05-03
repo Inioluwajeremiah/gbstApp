@@ -57,3 +57,4 @@
 
 // firebase errors - https://firebase.google.com/docs/auth/admin/errors
 // https://react-svgr.com/playground/
+// AnimatedCircularProgress is cool try it out

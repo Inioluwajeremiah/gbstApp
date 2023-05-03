@@ -29,7 +29,7 @@ const CodeAuthenticationScreen = ({navigation}) => {
           <View style={{ flexDirection:'row', flexWrap:'wrap', justifyContent:"center", paddingLeft:"2%", marginTop:40, marginBottom:20}}>
             {
               codeBox.map((item, index) => 
-                <View key={index} style={{justifyContent:'center', alignItems:'center', width: windowWidth/5, height: windowWidth/5, backgroundColor:"#e8eceb", borderRadius:12, marginRight:"2%", marginTop:"3%"}}>
+                <View key={index} style={{justifyContent:'center', alignItems:'center', width: windowWidth/5, height: windowWidth/5, backgroundColor:"#e8eceb", borderRadius:12}}>
                   <TextInput style={{textAlign:'center', justifyContent:'center',  fontSize:28, fontFamily:"PoppinsBlack", marginBottom:-10, lineHeight:38, color: "#1C1F1E"}}/>
                 </View>
               )
