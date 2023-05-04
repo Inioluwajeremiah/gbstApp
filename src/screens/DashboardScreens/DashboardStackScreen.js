@@ -133,9 +133,9 @@ const DashboardStackScreen = ({navigation, route}) => {
             name="BloodSugarTest" 
             options={{
                 headerShown: true,
-                headerLeft: () => CustomHeaderLeft(),
-                headerRight: () => CustomHeaderRight(), 
-                headerTitle: () => CustomHeaderTitle('Blood Sugar Test')
+                headerLeft: () => CustomHeaderLeft('#6295E2'),
+                headerRight: () => CustomHeaderRight('#6295E2'), 
+                headerTitle: () => CustomHeaderTitle('Blood Sugar Test', '#6295E2')
             }}
             component={BloodSugarTestScreen} 
         />
