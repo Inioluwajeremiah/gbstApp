@@ -10,9 +10,9 @@ npm-debug.*
 *.orig.*
 web-build/
 
-password.js
-SmtpConfig.js
-apikey.js
+password
+SmtpConfig
+apikey
 
 # macOS
 .DS_Store
