@@ -19,7 +19,7 @@ const EnrolMentScreen = () => {
   const ethnicityArray = [{id:1, label:"Yoruba"},{id:2, label:"Igbo"},{id:3, label:"THausa\Fulani"},{id:4, label:"Others"}]
   
   return (
-   <ScrollView style={{paddingHorizontal:16, marginTop:10}}>
+   <ScrollView style={{paddingHorizontal:16, marginTop:10, backgroundColor:"#f5f5f5"}}>
     <FormTextField 
       place_holder = "How old were you at your last birthday?"
       place_holder_text_color ="#7C7C7C"

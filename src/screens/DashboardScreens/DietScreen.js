@@ -37,7 +37,7 @@ const DietScreen = () => {
         )
       }      
           {/* timer green card */}
-          <View 
+        <View 
             style={{maxWidth:500, marginTop:30, width:"100%", height:310, borderRadius:20, backgroundColor:"#6295E2", alignItems:'center', justifyContent:'center'}}>
 
             {/* timer countdown */}

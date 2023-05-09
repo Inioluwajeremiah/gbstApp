@@ -1,21 +1,19 @@
 import React, { useContext, useEffect } from 'react'
 import { Image, View, Text } from 'react-native'
 import logo from '../../assets/logo.png';
-import { useFonts } from 'expo-font';
 import { windowHeight } from '../Dimensions';
 import CustomTextRegular from '../components/CustomTextRegular';
 import CustomTextBold from '../components/CustomTextBold';
-
+import { GbstContext } from '../../GbstContext';
 
 const HomeSplashScreen = ({navigation}) => {
 
-  useFonts
 
     useEffect(() => {
         const timer = setTimeout(() => {
           navigation.reset({
             index: 0,
-            routes: [{ name: 'HomeNav'}],
+            routes: [{ name: 'main'}],
           });
         }, 500); // delay navigation for 3 seconds
     

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "gbst",
+    "name": "Gbst",
     "slug": "gbst",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo.svg",
+    "icon": "./assets/icon3.png",
     "userInterfaceStyle": "light",
     "assetBundlePatterns": [
       "**/*"
@@ -14,12 +14,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon3.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.inioluwajeremiah.gbst"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon3.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b489a8d3-3971-4d18-8e6b-e22472b39703"
+      }
     }
   }
 }

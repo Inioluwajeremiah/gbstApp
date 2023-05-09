@@ -115,6 +115,7 @@ const DashboardScreen = ({navigation}) => {
       }
       </View>
 
+      {/* blood card */}
       <View style={{backgroundColor:'#6295E2', marginHorizontal:16, borderRadius:14, marginVertical:50}}>
         <View style={{padding:10, position:'absolute'}}>
         <CustomTextBold style={{color:"#fff", fontSize:18, marginBottom:10}}>Blood test</CustomTextBold>

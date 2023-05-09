@@ -1,32 +1,63 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native'
 import { windowWidth } from '../../Dimensions';
 import LongButton from '../../components/LongButton';
 import { Circle, ClipPath, Defs, G, Mask, Path, Rect, Svg } from 'react-native-svg';
 import CustomTextBold from '../../components/CustomTextBold';
 import CustomTextRegular from '../../components/CustomTextRegular';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import profileImg from '../../../assets/tennis.png'
 
 const ProfileScreen = () => {
 
-  return (
-    <SafeAreaView style={{flex:1}}>
-      <ScrollView contentContainerStyle={{backgroundColor:"#f5f5f5"}}>
-        <View style={{width:"100%",height:300, maxHeight:500, justifyContent:'center', alignItems:'center', marginTop:20}}>
-          <View style={{width: windowWidth/1.5, height:windowWidth/1.5, maxWidth:500, maxHeight:500, borderdRadius:50, justifyContent:'center', alignItems:'center'}}>
-            <Image style={{width: windowWidth/2.5, height:windowWidth/2.5, maxWidth:500, maxHeight:500, backgroundColor:"blue", borderRadius:windowWidth/2, justifyContent:'center', alignItems:'center'}}>
-            </Image>
-          </View>
-        </View>
-     
-        {/* radar */}
-        <View style={{width:"90%", maxWidth:500, maxHeight:500, height:"50%", backgroundColor:"#6295E2", alignItems:'center', alignSelf:'center', justifyContent:'center', borderRadius:20, marginBottom:20}}>
-          {/* inner radar */}
-          <View>
+  const [progress, setProgress] = useState(89);
 
+  const resultIndicator = [{id:1, color:"#76D4A5", label:"Green is normal"},{id:2, color:"#F6C25D", label:"Orange is prediabetes"},{id:3, color:"#FF6C52", label:"Red is diabetes"},]
+
+  return (
+      <ScrollView style={{flex:1, backgroundColor:"#f5f5f5"}}>
+
+        {/* profile image */}
+        <View style={{width:"100%",  justifyContent:'center', alignItems:'center', marginTop:0}}>
+          <View style={{width: windowWidth/2.5, height:windowWidth/2.5,  borderRadius:windowWidth/2.5, justifyContent:'center', alignItems:'center', backgroundColor:"#ddd", marginBottom:20}}>
+            <Image source={profileImg} />
           </View>
         </View>
-        {/* legend */}
-        <View></View>
+        
+          {/* result card */}
+        <View style={{borderRadius:20, maxWidth:"100%", flexDirection:'row', justifyContent:'space-between', padding:16, backgroundColor:"#6295E2", marginHorizontal:16, marginBottom:30}}>
+          {/* display result */}
+          <View>
+            <AnimatedCircularProgress
+              size={windowWidth/2.5}
+              width={10}
+              fill={progress}
+              tintColor="#F6C25D"
+              backgroundColor="#fff"
+              rotation={0}
+              lineCap="round"
+              arcSweepAngle={360}
+            />
+          </View>
+
+            {/* display legend and text box */}
+          <View style={{paddingHorizontal:10}}>
+                {/* display legend */}
+            <View >
+              {
+                  resultIndicator.map((item, index) => 
+                  <View key={index} style={{flexDirection:'row', marginBottom:20, alignItems:'center'}}>
+                    <View style={{width:20,height:18,backgroundColor:`${item.color}`, marginRight:5}}></View>
+                    <CustomTextRegular style={{color:"#fff", fontSize:8, textAlign:"center", overflow:"hidden"}}>{item.label}</CustomTextRegular>
+                  </View>
+                  )
+                }
+            </View>
+          </View>
+
+        </View>
+
+         
 
         <LongButton 
           on_press={null}
@@ -41,7 +72,7 @@ const ProfileScreen = () => {
           text={"Change Email"}
         />
 
-        <View style={{ backgroundColor:'#6295E2', marginHorizontal:16, borderRadius:14, marginVertical:50}}>
+        <View style={{ backgroundColor:'#6295E2', marginHorizontal:16, borderRadius:14, marginVertical:30}}>
             <View style={{padding:10, position:'absolute'}}>
             <CustomTextBold style={{color:"#fff", fontSize:18, marginBottom:10}}>Blood test</CustomTextBold>
             <CustomTextRegular style={{color:"#fff", fontSize:12}}>Your last schedule date</CustomTextRegular>
@@ -84,8 +115,6 @@ const ProfileScreen = () => {
 
         </View>
     </ScrollView>
-    </SafeAreaView>
-   
   )
 }
 

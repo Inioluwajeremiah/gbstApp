@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import React from 'react'
 import { StyleSheet, TextInput } from 'react-native'
 
-const FormTextField = ({place_holder, place_holder_text_color, border_width, border_color}) => {
+const FormTextField = ({place_holder, place_holder_text_color, border_width, border_color,onChangeText,props}) => {
 
   const [fontsLoaded] = useFonts({
     PoppinsRegular: require('../../assets/fonts/PoppinsRegular.ttf'),
@@ -15,7 +15,7 @@ const FormTextField = ({place_holder, place_holder_text_color, border_width, bor
   }
   
   return (
-    <TextInput placeholder={place_holder} placeholderTextColor={place_holder_text_color}
+    <TextInput placeholder={place_holder} onChangeText={onChangeText} placeholderTextColor={place_holder_text_color} {...props}
         style={[TextFieldStyle.container, {borderWidth:border_width, borderColor: border_color} ]}
     />
   )

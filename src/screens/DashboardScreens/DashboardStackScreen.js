@@ -11,11 +11,12 @@ import DietScreen from './DietScreen';
 import ExerciseScreen from './ExerciseScreen';
 import BloodSugarTestScreen from './BloodSugarTestScreen';
 import FKCScreen from './FKCScreen';
-import HomeNavScreen from '../HomeNavScreen';
-import { StatusBar, Text, TouchableOpacity } from 'react-native';
+import {TouchableOpacity } from 'react-native';
 import DashboardScreen from '../DrawerScreens/DashboardScreen';
 import { Path, Svg } from 'react-native-svg';
 import CustomTextBold from '../../components/CustomTextBold';
+import SupportScreen from '../DrawerScreens/SupportScreen';
+import AboutScreen from '../DrawerScreens/AboutScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,7 @@ const DashboardStackScreen = ({navigation, route}) => {
     
         <Stack.Navigator 
             screenOptions={{
+                title:"primary stack",
                 headerShown: true, 
                 headerTransparent: true,
                 headerBackVisible: false,
@@ -148,6 +150,26 @@ const DashboardStackScreen = ({navigation, route}) => {
                 headerTitle: () => CustomHeaderTitle('Fetal Kick Count', '#6295E2')
             }}
             component={FKCScreen} 
+        />
+         <Stack.Screen
+            name="About" 
+            options={{
+                headerShown: true,
+                headerLeft: () => null,
+                headerRight: () => CustomHeaderRight('#66CA98'), 
+                headerTitle: () => CustomHeaderTitle('About', '#66CA98')
+            }}
+            component={AboutScreen} 
+        />
+        <Stack.Screen
+            name="Support" 
+            options={{
+                headerShown: true,
+                headerLeft: () => null,
+                headerRight: () => CustomHeaderRight('#66CA98'), 
+                headerTitle: () => CustomHeaderTitle('Support', '#66CA98')
+            }}
+            component={SupportScreen} 
         />
 
         </Stack.Navigator>
