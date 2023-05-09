@@ -10,13 +10,14 @@ npm-debug.*
 *.orig.*
 web-build/
 
+password.js
+SmtpConfig.js
+apikey.js
+
 # macOS
 .DS_Store
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
-.apikey
-.main
 
-.password
-.SmtpConfig
+.main
