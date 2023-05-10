@@ -1,17 +1,29 @@
 import React from 'react'
 import { Alert } from 'react-native';
-import Email from 'smtpjs';
+import { WebView } from 'react-native-webview';
+import CustomTextBold from './CustomTextBold';
+import CustomTextRegular from './CustomTextRegular';
 
 const SmtpConfig = (emailFrom, emailTo, subject, body, custom_message) => {
-    Email.send({
-        SecureToken : "dffb3714-a609-4950-b076-3f30386a0a9b",
-        To : emailTo,
-        From : emailFrom,
-        Subject : subject,
-        Body : body
-    }).then(
-      message => Alert.alert(custom_message)
-    );
+  const emailBody =()=> {
+    return (
+      <View>
+        <CustomTextBold>GBST</CustomTextBold>
+        <CustomTextRegular>gbstaiapp@gmail.com</CustomTextRegular>
+      </View>
+    )
+  }
+  window.Email.send({
+    SecureToken: 'E63150F36413DED4374BE0B4A68E4203C2B3',
+    To: emailTo,
+    From: emailFrom,
+    Subject: "Authentication Code from GBST",
+    Body: emailBody
+  }).then(() => {
+    Alert.alert('Email sent successfully!');
+  }).catch(error => {
+    Alert.alert('Failed to send email:', error);
+  });
 }
 
 export default SmtpConfig
