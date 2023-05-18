@@ -17,6 +17,7 @@ import { Path, Svg } from 'react-native-svg';
 import CustomTextBold from '../../components/CustomTextBold';
 import SupportScreen from '../DrawerScreens/SupportScreen';
 import AboutScreen from '../DrawerScreens/AboutScreen';
+import NotificationScreen from '../DrawerScreens/NotificationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,18 +43,26 @@ const DashboardStackScreen = ({navigation, route}) => {
             </TouchableOpacity>
         )
     }
+
     const CustomHeaderTitle = (title, text_color) => {
         return (
             <CustomTextBold style={{fontSize:26, color:`${text_color}`, marginVertical:20}}>{title}</CustomTextBold>
         )
     }
 
+    const CustomNotificationIcon = () => {
+        return (
+            <Svg width="26" height="29" viewBox="0 0 26 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <Path d="M13 29C15.0498 29 16.7125 27.3772 16.7125 25.375H9.28747C9.28747 27.3772 10.9502 29 13 29ZM25.5003 20.5203C24.379 19.3445 22.281 17.5756 22.281 11.7812C22.281 7.38027 19.1193 3.85723 14.856 2.99289V1.8125C14.856 0.81166 14.0249 0 13 0C11.9751 0 11.144 0.81166 11.144 1.8125V2.99289C6.88073 3.85723 3.71896 7.38027 3.71896 11.7812C3.71896 17.5756 1.62097 19.3445 0.499726 20.5203C0.151513 20.8857 -0.00286165 21.3224 4.01251e-05 21.75C0.00642403 22.6789 0.753341 23.5625 1.86298 23.5625H24.137C25.2467 23.5625 25.9942 22.6789 26 21.75C26.0029 21.3224 25.8485 20.8851 25.5003 20.5203Z" fill="#66CA98"/>
+            </Svg>
+
+        )
+    }
     
     return(
     
-        <Stack.Navigator 
+        <Stack.Navigator
             screenOptions={{
-                title:"primary stack",
                 headerShown: true, 
                 headerTransparent: true,
                 headerBackVisible: false,
@@ -152,24 +161,35 @@ const DashboardStackScreen = ({navigation, route}) => {
             component={FKCScreen} 
         />
          <Stack.Screen
-            name="About" 
+            name="Notification" 
             options={{
                 headerShown: true,
-                headerLeft: () => null,
-                headerRight: () => CustomHeaderRight('#66CA98'), 
-                headerTitle: () => CustomHeaderTitle('About', '#66CA98')
+                headerLeft: () =>  CustomHeaderLeft('#66CA98'),
+                headerRight: () => CustomHeaderRight('#66CA98'),
+                // CustomNotificationIcon(), 
+                headerTitle: () => CustomHeaderTitle('Notification', '#66CA98')
             }}
-            component={AboutScreen} 
+            component={NotificationScreen} 
         />
         <Stack.Screen
             name="Support" 
             options={{
                 headerShown: true,
-                headerLeft: () => null,
+                headerLeft: () => CustomHeaderLeft('#66CA98'),
                 headerRight: () => CustomHeaderRight('#66CA98'), 
                 headerTitle: () => CustomHeaderTitle('Support', '#66CA98')
             }}
             component={SupportScreen} 
+        />
+        <Stack.Screen
+            name="About" 
+            options={{
+                headerShown: true,
+                headerLeft: () =>  CustomHeaderLeft('#66CA98'),
+                headerRight: () => CustomHeaderRight('#66CA98'), 
+                headerTitle: () => CustomHeaderTitle('About', '#66CA98')
+            }}
+            component={AboutScreen} 
         />
 
         </Stack.Navigator>

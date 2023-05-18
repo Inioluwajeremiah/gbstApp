@@ -14,7 +14,7 @@ const SmtpConfig = (emailFrom, emailTo, subject, body, custom_message) => {
     )
   }
   window.Email.send({
-    SecureToken: 'E63150F36413DED4374BE0B4A68E4203C2B3',
+    SecureToken: '',
     To: emailTo,
     From: emailFrom,
     Subject: "Authentication Code from GBST",

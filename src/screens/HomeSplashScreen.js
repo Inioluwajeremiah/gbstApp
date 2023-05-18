@@ -4,7 +4,6 @@ import logo from '../../assets/logo.png';
 import { windowHeight } from '../Dimensions';
 import CustomTextRegular from '../components/CustomTextRegular';
 import CustomTextBold from '../components/CustomTextBold';
-import { GbstContext } from '../../GbstContext';
 
 const HomeSplashScreen = ({navigation}) => {
 

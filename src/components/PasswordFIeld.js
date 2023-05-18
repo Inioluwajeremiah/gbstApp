@@ -23,10 +23,10 @@ const PasswordFIeld = ({place_holder, place_holder_text_color, border_width, bor
     }
 
   return (
-    <View  style={[PasswordFieldStyle.container, {borderWidth:border_width, borderColor: border_color} ]}>
+    <TouchableOpacity  style={[PasswordFieldStyle.container, {borderWidth:border_width, borderColor: border_color} ]}>
         <TextInput 
             placeholder={place_holder} placeholderTextColor={place_holder_text_color} 
-            secureTextEntry={secureTextEntry} style={{ fontFamily: "PoppinsRegular"}} onChangeText={onChangeText}
+            secureTextEntry={secureTextEntry} style={{ fontFamily: "PoppinsRegular", width:"90%"}} onChangeText={onChangeText}
         />
         <TouchableOpacity onPress={toggleSecureEntry} style={{padding:10}}>
             {
@@ -43,7 +43,7 @@ const PasswordFIeld = ({place_holder, place_holder_text_color, border_width, bor
            
         </TouchableOpacity>
 
-    </View>
+    </TouchableOpacity>
   )
 }
 

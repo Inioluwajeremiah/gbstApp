@@ -65,7 +65,7 @@ const CustomHeaderTitle = (title) => {
   return (
     <>
         <StatusBar backgroundColor= "#f5f5f5" barStyle="dark-content"  />
-        <Drawer.Navigator style={{flex:1}}
+        <Drawer.Navigator style={{flex:1}} initialRouteName='Dashboard'
           screenOptions={{
               drawerActiveBackgroundColor:"#f5f5f5",
               drawerActiveTintColor: "#ff6c52",
@@ -88,7 +88,7 @@ const CustomHeaderTitle = (title) => {
               </DrawerContentScrollView>
               <View  style={{ justifyContent:'flex-end'}}>
                 <View style={{marginLeft:30, padding:10}}>
-                  <TouchableOpacity onPress={() => navigation.navigate("Support")} style={{ flexDirection:'row', justifyContent:"space-between", alignItems:'center'}}>
+                  <TouchableOpacity onPress={() => navigation.navigate("Notification")} style={{ flexDirection:'row', justifyContent:"space-between", alignItems:'center'}}>
                     <CustomTextRegular style={styles.drawerLabelStyle}>Notification</CustomTextRegular>
                     <CustomTextRegular style={{width:35, height:25, backgroundColor: "#66CA98", textAlign:'center', fontSize:12, color:"#fff", borderRadius:4, padding:4}}>1</CustomTextRegular>
                   </TouchableOpacity>

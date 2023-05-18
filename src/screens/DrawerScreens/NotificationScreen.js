@@ -1,9 +1,10 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 
 const NotificationScreen = () => {
   return (
-    <Text>NotificationScreen</Text>
+    <ScrollView style={{backgroundColor:"#f5f5f5"}}>
+    </ScrollView>
   )
 }
 

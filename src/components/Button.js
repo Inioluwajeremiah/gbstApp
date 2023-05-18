@@ -1,16 +1,24 @@
-import React from 'react'
-import { StyleSheet} from 'react-native'
+import React, { useState } from 'react'
+import { ActivityIndicator, StyleSheet} from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import CustomTextRegular from './CustomTextRegular'
 import { View } from 'react-native'
 import { color } from 'react-native-reanimated'
 
-const Button = ({title, bg_color, btn_on_press}) => {
+const Button = ({title, bg_color, btn_on_press, loading}) => {
+
+  // const [loading, setLoading] = useState(false)
+
   return (
       <View style={{with:"100%", justifyContent:'center', alignItems:'center'}}>
-        <TouchableOpacity style={{padding:10, }} onPress={btn_on_press}>
-        <CustomTextRegular style={ [buttonStyles.textStyle, {backgroundColor:bg_color}]} >{title}</CustomTextRegular>
-      </TouchableOpacity>
+        <TouchableOpacity style={{padding:10 }} onPress={btn_on_press}>
+          { 
+            loading ?
+            <ActivityIndicator size="small" color="#00ff00" style={ [buttonStyles.textStyle, {backgroundColor:bg_color}]}/>
+            :
+            <CustomTextRegular style={ [buttonStyles.textStyle, {backgroundColor:bg_color}]} >{title}</CustomTextRegular>
+          }
+        </TouchableOpacity>
       </View>
   )
 }
