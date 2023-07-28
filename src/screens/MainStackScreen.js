@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import SignUpScreen from './SignUpScreen'
 import SignInScreen from './SignInScreen'
@@ -13,10 +13,29 @@ const Stack = createNativeStackNavigator()
 
 const MainStackScreen = () => {
 
-    const {authStatus, GetDoc, localUserId} = useContext(GbstContext)
+    {/* workflow of user authentication
+    1. use clean email ehich is email with the removal of special characters
+    2. since the userId is taking long to respond
+    3. save the clean_email on phone storage, and use it as the second path
+        for storing user data
+    3. Use clean_email as the second path for code verification as well'
+    4. When verifying auth code you can retrieve clean_email from local storage
+    5. delete when user is already authenticated
+    6. since the email is the link to get to the authenticated users as well, 
+        allow authentication only from sign which means you redirect users to 
+        sign in page after authentiation
+    7. The email link can be gotten by cleaning email from user sigin as well
+        and use to query link and check whether user is authenticated or not 
+    */}
 
-    const data2 = GetDoc("authenticatedUsers", localUserId)
-    console.log("authStatus =>  ", authStatus);
+    const {authStatus, GetDoc, localUserId, userId, loadingAuth} = useContext(GbstContext);
+
+    // const userId = userObject.uid;
+
+    useEffect(() => {
+        GetDoc("authenticatedUsers")
+    }, [])
+    console.log("authStatus stat =>  ", authStatus);
 
   return (
 
@@ -24,12 +43,20 @@ const MainStackScreen = () => {
         screenOptions={{headerShown:false}} style={{flex: 1}}>
 
             {/* if userobject show nav if not refer to sign in as the first screen */}
-
         {
-           authStatus == true ? 
+            loadingAuth ? 
+                <Stack.Screen
+                        name="LoadingScreen" 
+                        options={{
+                            headerShown: false,
+                        }}
+                        component={LoadingScreen} 
+                /> 
+            :
+           authStatus == true && userId ? 
                 //  !userObject ? 
                 <Stack.Screen
-                    name="HomeNav" 
+                    name="HomeNav"  
                         options={{
                             headerShown: false,
                             // headerStatusBarHeight: StatusBar.currentHeight,

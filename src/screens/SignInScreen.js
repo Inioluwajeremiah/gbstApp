@@ -29,6 +29,7 @@ const SignInScreen = ({navigation}) => {
 
     } else{
       setErrorPassword("");
+      setErrorPassword("")
 
       // onpress: if successfull, navigate to home nave
       const onpress = () => {
@@ -40,7 +41,8 @@ const SignInScreen = ({navigation}) => {
         navigation.navigate("Sign up")
       }
       
-      SignInUser(email, userPassword, onpress, onpresSignup);
+      SignInUser(email, userPassword, onpress);
+      
     } //ends else
   
   } 
@@ -71,7 +73,7 @@ const SignInScreen = ({navigation}) => {
           <TouchableOpacity onPress={() => navigation.navigate("CodeAuth") }>
             <CustomTextRegular style={{color:"#66CA98", fontSize:14, fontWeight:500}}>Authenicate</CustomTextRegular>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onpress={() => navigation.navigate("SplashScreen")}>
             <CustomTextRegular style={{color:"#66CA98", fontSize:14, fontWeight:500}}>Forgot your password?</CustomTextRegular>
           </TouchableOpacity>
         </View>

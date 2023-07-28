@@ -8,16 +8,16 @@ import { windowHeight, windowWidth } from '../Dimensions';
 const LoadingScreen = ({navigation}) => {
     
     
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            navigation.reset({
-            index: 0,
-            routes: [{ name: 'HomeNav'}],
-            });
-        }, 500); // delay navigation for 3 seconds
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         navigation.reset({
+    //         index: 0,
+    //         routes: [{ name: 'HomeNav'}],
+    //         });
+    //     }, 500); // delay navigation for 3 seconds
     
-        return () => clearTimeout(timer); // clear timeout on unmount
-        }, []);
+    //     return () => clearTimeout(timer); // clear timeout on unmount
+    //     }, []);
 
     return (
     

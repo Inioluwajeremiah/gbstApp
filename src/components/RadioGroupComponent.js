@@ -6,7 +6,7 @@ import CustomTextRegular from './CustomTextRegular';
 // also implement  firebase to save selected values here
 
 // radio button UI
-function RadioButton({ label, selected, onPress }) {
+const RadioButton = ({ label, selected, onPress }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
     <View style={[styles.radioButton, selected && styles.radioButtonSelected]}>
@@ -21,31 +21,31 @@ function RadioButton({ label, selected, onPress }) {
   );
 }
   
-  function MyRadioGroup({field_name, sub_field_name, array}) {
-    // {array}
-  const [selectedOption, setSelectedOption] = useState('');
+//   function MyRadioGroup({array, selected, on_press}) {
+//     // {array}
+//   const [selectedOption, setSelectedOption] = useState('');
 
-  // checked_value = selectedOption;
+//   // checked_value = selectedOption;
 
-  const handleOptionPress = (option) => {
-    setSelectedOption(option);
-  };
+//   const handleOptionPress = (option) => {
+//     setSelectedOption(option);
+//   };
 
-  return (
-    <View style={styles.container2}>
+//   return (
+//     <View style={styles.container2}>
 
-      {
-        array.map((item, index) => 
-          <RadioButton key={index}
-            label={item.label}
-            selected={selectedOption === `${item.label}`}
-            onPress={() => handleOptionPress(`${item.label}`)}
-          />
-        )
-      }
-    </View>
-  );
-}
+//       {
+//         array.map((item, index) => 
+//           <RadioButton key={index}
+//             label={item.label}
+//             selected={selectedOption === `${item.label}`}
+//             onPress={() => handleOptionPress(`${item.label}`)}
+//           />
+//         )
+//       }
+//     </View>
+//   );
+// }
 
 const styles = StyleSheet.create({
   container: {
@@ -54,21 +54,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
   },
-  container2: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-    marginHorizontal:16,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 2,
-    elevation: 2
-  },
+  // container2: {
+  //   backgroundColor: 'white',
+  //   borderRadius: 8,
+  //   padding: 16,
+  //   marginBottom: 16,
+  //   marginHorizontal:16,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.2,
+  //   shadowOffset: {
+  //     width: 0,
+  //     height: 2,
+  //   },
+  //   shadowRadius: 2,
+  //   elevation: 2
+  // },
   radioButton: {
     height: 16,
     width: 16,
@@ -96,5 +96,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyRadioGroup;
+export default RadioButton;
 

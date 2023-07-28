@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ImageBackground, ScrollView, View, StatusBar, TouchableOpacity } from 'react-native'
 import { windowHeight } from '../../Dimensions'
 import obstetric from '../../../assets/obstetric.jpg'
@@ -13,10 +13,15 @@ import CustomHeader from '../../components/CustomHeader'
 
 const ObstetricInformationScreen = ({navigation}) => {
 
+  const {localUserId, saveDoc} = useContext(GbstContext);
+
+  const [previousPregnancy, setPreviousPregnancy] = useState('')
+  
+
   const birth_with_4kg = [{id:1, label:"Yes"},{id:2, label:"No"}]
 
   let status_bar_height = StatusBar.currentHeight
-  // const icon_height = 
+  
   return (
     <ScrollView  style={{backgroundColor:"#f5f5f5"}}>
       <ImageBackground source={obstetric} style={{resizeMode:'cover', marginBottom:30, flex: 1, width:"100%", marginTop: -status_bar_height , height: windowHeight/3}}>

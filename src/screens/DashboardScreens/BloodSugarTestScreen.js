@@ -10,6 +10,8 @@ import { Circle, G, Mask, Path, Svg } from 'react-native-svg'
 
 const BloodSugarTestScreen = () => {
 
+  const {userId, SaveDoc, saveDocLoading} = useContext(GbstContext);
+
   const [progress, setProgress] = useState(89);
 
   const testIndicatorsData = [

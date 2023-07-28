@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import FormHeader from '../components/FormHeader'
 import { KeyboardAvoidingView, Text, StyleSheet, TextInput, Alert, TouchableOpacity, View } from 'react-native'
 import CustomTextRegular from '../components/CustomTextRegular'
@@ -10,7 +10,7 @@ import { GbstContext } from '../GbstContext'
 
 const CodeAuthenticationScreen = ({navigation}) => {
 
-  const {AuthenticateUser, buttonSpinner, localUserId} = useContext(GbstContext)
+  const {AuthenticateUser, buttonSpinner, localUserId, getData} = useContext(GbstContext);
 
   const codeBox = [1,2,3,4]
 
@@ -35,15 +35,21 @@ const CodeAuthenticationScreen = ({navigation}) => {
 
     // Alert.alert("Code box cannot be empty")
     const onpress =() => {
-      navigation.navigate("Sign in")
+      navigation.navigate("main")
     }
 
     if (code0.length > 0 && code1.length > 0 && code2.length > 0 && code3.length > 0) {
+
+      // call auhtenticate user from context
       AuthenticateUser(code0, code1, code2, code3, onpress)
     } else {
       Alert.alert("Authentication Error", "Code box cannot be empty")
     }
   }
+
+  useEffect(() => {
+    // getData()
+  })
 
   return (
     <KeyboardAvoidingView style={{ flex:1, backgroundColor:"#f5f5f5"}}>
@@ -82,7 +88,7 @@ const CodeAuthenticationScreen = ({navigation}) => {
               <CustomTextRegular style={{color:"#66CA98", marginLeft:3, fontSize:14, fontWeight:500,  textDecorationLine: 'underline'}}>Click here</CustomTextRegular>
             </TouchableOpacity>
           </View>
-          {/* <Text>{localUserId}</Text> */}
+          <Text>{localUserId ? localUserId : "No local user Id"}</Text>
          
           <FormFooter btn_text2 ={"Verify"} btn_on_press_2 ={() => authenticateUser()} loading={buttonSpinner}/>
         </View> 

@@ -1,12 +1,43 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { ScrollView, StatusBar, Text, View } from 'react-native'
 import FormTextField from '../../components/FormTextField'
 import FormTextFieldLabel from '../../components/FormTextFieldLabel'
 import CustomTextRegular from '../../components/CustomTextRegular'
 import MyRadioGroup from '../../components/RadioGroupComponent'
 import Button from '../../components/Button'
+import { GbstContext } from '../../GbstContext'
 
 const EnrolMentScreen = () => {
+
+  const {localUserId, saveDoc} = useContext(GbstContext);
+
+  const [loading, setLoading] = useState(true)
+  const [age, setAge] = useState(0)
+  const [education, setEducation] = useState('')
+  const [maritalStatus, setMaritalStatus] = useState('')
+  const [religion, setReligion] = useState('')
+  const [ethnicity, setEthincity] = useState('')
+  const [occupation, setOccupation] = useState('')
+
+  // save enrollMent data to firebase
+  const SaveEnrollMentData = () => {
+    setLoading(true)
+    const obbectToSave = {
+      'age': age ? age : '',
+      'education': education ? education : "",
+      'marital status': maritalStatus ? maritalStatus : "",
+      'religion': religion ? religion: "",
+      'ethnicity': ethnicity ? ethnicity : "",
+      'occupation': occupation ? occupation : ""
+    }
+    if (localUserId) {
+      saveDoc("enrollmentId", localUserId, obbectToSave)
+      setLoading(false)
+    } else {
+      Alert.alert ("No user Id")
+      setLoading(false)
+    }
+  }
 
   const SubfieldLabel =  ({text}) => {
     return (
@@ -26,6 +57,11 @@ const EnrolMentScreen = () => {
     />
 
     {/* marital sub field */}
+    {/* <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+      <SubfieldLabel text={"Marital"} />
+      <CustomTextRegular style={styles.errorText}>{errorEmail}</CustomTextRegular>
+    </View>
+    <FormTextField border_color={errorEmail ? "#FF6C52" : null} border_width={errorEmail ? 1 : null} place_holder={"Input email"} onChangeText ={(eml) => setEmail(eml.trim())}/> */}
     <SubfieldLabel text={"Marital"} />
     <FormTextFieldLabel text={"What is your level of education?"}/>
     <MyRadioGroup array={maritalArray} field_name={"EnrollMent"} sub_field_name={"marital"}/>
@@ -35,7 +71,7 @@ const EnrolMentScreen = () => {
     <FormTextFieldLabel text="What is your Religion?"/>
     <MyRadioGroup array={religiousArray} field_name={"EnrollMent"} sub_field_name={"religion"}/>
 
-     {/* rthnicity sub field */}
+     {/* ethnicity sub field */}
      <SubfieldLabel text={"Ethnicity"} />
     <FormTextFieldLabel text="What is your Etnicity?"/>
     <MyRadioGroup array={ethnicityArray} field_name={"EnrollMent"} sub_field_name={"ethnicity"}/>
@@ -45,7 +81,12 @@ const EnrolMentScreen = () => {
       place_holder_text_color ="#7C7C7C"
     />
 
-    <Button title='Submit' onPress={null} bg_color={"#66CA98"} />
+    <Button 
+      title='Submit' 
+      bg_color={"#66CA98"} 
+      btn_on_press = {SaveEnrollMentData}
+      loading ={loading}
+    />
 
 
 
