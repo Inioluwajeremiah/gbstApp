@@ -7,12 +7,39 @@ import MyRadioGroup from '../../components/RadioGroupComponent'
 import Button from '../../components/Button'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { Circle, G, Mask, Path, Svg } from 'react-native-svg'
+import DOMPurify from 'dompurify';
+
 
 const BloodSugarTestScreen = () => {
 
   const {userId, SaveDoc, saveDocLoading} = useContext(GbstContext);
 
   const [progress, setProgress] = useState(89);
+  const [age, setAge] = useState('')
+  const [educationLevel, setEducationLevel] = useState('')
+  const [maritalStatus, setMaritalStatus] = useState('')
+  const [religion, setReligion] = useState('')
+  const [ethnicity, setEthnicity] = useState('')
+  const [occupation, setOccupation] = useState('')
+  
+
+  const SubmitData = ()  => {
+    fetch ('', {
+      method: "POST",
+      body: JSON.stringify({
+        age:age,
+        educationLevel:educationLevel,
+        maritalStatus: maritalStatus,
+        religion: religion,
+        ethnicity: ethnicity,
+        occupation:occupation
+      }).then(prom => prom.json()).then(result => {
+        Alert.alert("", `${result.message}`)
+      }).catch(error => {
+        Alert.alert("", `${error}`)
+      })
+    })
+  }
 
   const testIndicatorsData = [
     {id:1, label:"A1C Test", type:[{label:"Normal", data:"Below 5.7%",color:"#76D4A5"}, {label:"Prediabetes", data:"5.7 - 6.4%", color:"#F6C25D"}, {label:"Diabetes", data:"6.5% or above", color:"#FF6C52"}]},
