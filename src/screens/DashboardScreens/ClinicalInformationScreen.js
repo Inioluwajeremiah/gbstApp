@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { ImageBackground, ScrollView, View, StatusBar, TouchableOpacity } from 'react-native'
 import { windowHeight } from '../../Dimensions'
 import clinical from '../../../assets/clinical.jpg'
@@ -8,12 +8,13 @@ import CustomTextBold from '../../components/CustomTextBold'
 import FormTextField from '../../components/FormTextField'
 import Button from '../../components/Button'
 import CustomHeader from '../../components/CustomHeader'
-import { GbstContext } from '../../GbstContext'
+// import { GbstContext } from '../../GbstContext'
 import { Alert } from 'react-native'
+import FormTextFieldLabel from '../../components/FormTextFieldLabel'
 
 const ClinicalInformationScreen = ({navigation}) => {
 
-  const {userId, SaveDoc} = useContext(GbstContext);
+  // const {userId, SaveDoc} = useContext(GbstContext);
 
   const [weight, setWeight] = useState(0)
   const [height, setHeight] = useState(0);
@@ -21,27 +22,51 @@ const ClinicalInformationScreen = ({navigation}) => {
   const [waistCircuference, setWaistCircumference] = useState(0);
   const [hipCircumference, setHipCirumference] = useState(0);
   const [gestationalAge, setGestationalAge] = useState(0);
-
+  const [loading, setLoading] = useState(false)
+ 
   const bmi = useMemo(() => weight / height, [weight, height]);
   const waistHipCircumference = useMemo(() => waistCircuference / hipCircumference, [
     waistCircuference, hipCircumference, ]);
-
   let status_bar_height = StatusBar.currentHeight
 
+  const clearForm = () => {
+    setWeight(0)
+    setHeight(0)
+    setArmCircumference(0)
+    setWaistCircumference(0)
+    setHipCirumference(0)
+    setGestationalAge(0)
+  }
+
   const SaveClinicalInformation = () => {
-    Alert.alert(userId)
+    // Alert.alert(userId)
+    setLoading(true)
     clinicalObject = {
-      'weight': weight,
-      'height': height,
-      'bmi': bmi,
-      'armCircumference': armCircumference,
-      'waistCircuference': waistCircuference,
-      'hipCircumference': hipCircumference,
-      'waistHipCircumference': waistHipCircumference,
-      'gestationalAge': gestationalAge
+      "weight": weight,
+      "height": height,
+      "bmi": bmi,
+      "armCircumference": armCircumference,
+      "waistCircumference": waistCircuference,
+      "hipCircumference": hipCircumference,
+      "waistHipCircumference": waistHipCircumference,
+      "gestationalAge": gestationalAge
     }
     // set doc to firestore
-    SaveDoc('ClinicalInformation', userId, clinicalObject)
+    // SaveDoc('ClinicalInformation', userId, clinicalObject)
+    fetch('http://gbstaiapp.pythonanywhere.com/clinical_history/', {
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(clinicalObject)
+    }).then(response => response.json()).then(result => {
+      Alert.alert("", result.message)
+      clearForm
+      setLoading(false)
+    }).catch(error => {
+      Alert.alert("", error.message)
+      setLoading(false)
+    })
   }
 
   return (
@@ -52,7 +77,7 @@ const ClinicalInformationScreen = ({navigation}) => {
         <CustomHeader background_color='#66CA98' navHome={() => navigation.navigate("Home")} toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
 
         {/* screen title */}
-        <CustomTextBold style={{fontSize:28, fontWeight:"800", backgroundColor:"rgba(1, 87, 44, 0.462)", paddingHorizontal:10, paddingVertical:3, color:"#fff", position:"absolute", left:16, bottom:16}}>Clinical History</CustomTextBold>
+        <CustomTextBold style={{fontSize:28, fontWeight:"800", backgroundColor:"rgba(1, 87, 44, 0.462)", paddingHorizontal:10, paddingVertical:3, color:"#fff", position:"absolute", left:16, bottom:16}}>Clinical Information</CustomTextBold>
       </View>
     </ImageBackground>
     {/* place_holder, place_holder_text_color, border_width, border_color,onChangeText,props */}
@@ -60,45 +85,47 @@ const ClinicalInformationScreen = ({navigation}) => {
       <FormTextField 
         place_holder ="Body weight (kg)"
         // place_holder_text_color={""}
-        onChangeText={(wt) => setWeight(wt.target.value.trim())}
+        onChangeText={(wt) => setWeight(wt.trim())}
         keyboardType ="numeric"
       />
       <FormTextField 
         place_holder ="Height (meters)"
         keyboardType ="numeric"
-        onChangeText={(ht) => setHeight(ht.target.value.trim())}
+        onChangeText={(ht) => setHeight(ht.trim())}
       />
-      <FormTextField 
-        place_holder = {`BMI = ${bmi}`}
-        keyboardType = "numeric"
+      <FormTextFieldLabel
+        text = {`BMI (${bmi ? bmi : "nill"})`}
+        // keyboardType = "numeric"
       />
       <FormTextField 
         place_holder ="Arm circumference (meters)"
         keyboardType ="numeric"
-        onChangeText={(arc) => setArmCircumference(arc.target.value.trim())}
+        onChangeText={(arc) => setArmCircumference(arc.trim())}
       />
-      <FormTextField 
+      <FormTextField
         place_holder ="Waist circumference (meters)"
         keyboardType ="numeric"
-        onChangeText={(wsc) => setWaistCircumference(wsc.target.value.trim())}
+        onChangeText={(wsc) => setWaistCircumference(wsc.trim())}
       />
       <FormTextField 
         place_holder ="Hip circumference (meters)"
         keyboardType ="numeric"
-        onChangeText={(hpc) => setHipCirumference(hpc.target.value.trim())}
+        onChangeText={(hpc) => setHipCirumference(hpc.trim())}
       />
-      <FormTextField 
-        place_holder ={`Waist/Hip circumference (meters) = ${waistHipCircumference}`}
-        keyboardType ="numeric"
+      <FormTextFieldLabel
+        text ={`Waist/Hip circumference in meters (${waistHipCircumference ? waistCircuference : 'nill'})`}
+        // keyboardType ="numeric"
 
       />
       <FormTextField 
         place_holder ="Gestational age at diagnosis of GDM"
         keyboardType ="numeric"
-        onChangeText={(gp) => setGestationalAge(gp.target.value.trim())}
+        onChangeText={(gp) => setGestationalAge(gp.trim())}
       />
 
-      <Button title='Submit' btn_on_press={SaveClinicalInformation} bg_color={"#66CA98"} />
+      <Button title='Submit' btn_on_press={SaveClinicalInformation} 
+        bg_color={"#66CA98"} spinner_color={'#fff'} loading={loading}
+      />
     </View>
     
   </ScrollView>

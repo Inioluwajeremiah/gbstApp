@@ -5,7 +5,7 @@ import CustomTextRegular from './CustomTextRegular'
 import { View } from 'react-native'
 import { color } from 'react-native-reanimated'
 
-const Button = ({title, bg_color, btn_on_press, loading}) => {
+const Button = ({title, bg_color, btn_on_press, loading, spinner_color}) => {
 
   // const [loading, setLoading] = useState(false)
 
@@ -14,7 +14,7 @@ const Button = ({title, bg_color, btn_on_press, loading}) => {
         <TouchableOpacity style={{padding:10 }} onPress={btn_on_press}>
           { 
             loading ?
-            <ActivityIndicator size="small" color="#00ff00" style={ [buttonStyles.textStyle, {backgroundColor:bg_color}]}/>
+            <ActivityIndicator size="small" color={spinner_color ? `${spinner_color}` : "#00ff00"} style={ [buttonStyles.textStyle, {backgroundColor:bg_color}]}/>
             :
             <CustomTextRegular style={ [buttonStyles.textStyle, {backgroundColor:bg_color}]} >{title}</CustomTextRegular>
           }

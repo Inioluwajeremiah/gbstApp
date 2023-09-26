@@ -78,8 +78,9 @@ const GbstContextProvider = ({children}) => {
         }
       })
 
-      getData('userId');
-      getData('userLogIn')
+      // getData('userId');
+      // getData('userLogIn')
+      getData('gbstaiapp_login')
       
       return () => unsubscribe();
     
@@ -100,6 +101,8 @@ const GbstContextProvider = ({children}) => {
       setSaveDocLoading(false);
     }
 }
+
+
 
   // retrieve saved docs in firebase
   const GetDoc = async (path1) => {
@@ -128,20 +131,40 @@ const GbstContextProvider = ({children}) => {
   }
 
   // retrieve userId from local storage
+  // const getData = async (key) => {
+  //   try {
+  //     const value = await AsyncStorage.getItem(key)
+  //     if (value === "loggedIn") {
+  //       setUserLoginStatus(true)
+  //     }
+  //     if(value !== "loggedIn" && value !== null) {
+  //       setLocalUserId(value)
+  //       console.log("local usier id context", value);
+  //     }
+  //   } catch(e) {
+  //     Alert.alert("Error", `${e.message}`)
+  //   }
+  // }
+
   const getData = async (key) => {
+        
     try {
-      const value = await AsyncStorage.getItem(key)
-      if (value === "loggedIn") {
-        setUserLoginStatus(true)
-      }
-      if(value !== "loggedIn" && value !== null) {
-        setLocalUserId(value)
-        console.log("local usier id context", value);
-      }
+        setLoadingAuth(true)
+        const value = await AsyncStorage.getItem(key)
+        if (!value || value !== 'true' || value == null) {
+            setUserLoginStatus(false)
+            setLoadingAuth(false)
+        } 
+        if (value == 'true') {
+            setUserLoginStatus(true)
+            setLoadingAuth(false)
+        }
+        setLoadingAuth(false)
     } catch(e) {
-      Alert.alert("Error", `${e.message}`)
+    Alert.alert("Error", `${e.message}`)
+    setLoadingAuth(false)
     }
-  }
+}   
 
   // send verification code
   const SendCode = (email) => {

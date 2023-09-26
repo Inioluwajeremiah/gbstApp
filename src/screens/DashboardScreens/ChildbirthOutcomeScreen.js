@@ -13,18 +13,24 @@ import CustomHeader from '../../components/CustomHeader'
 import { GbstContext } from '../../GbstContext'
 import { StyleSheet } from 'react-native'
 import RadioButton from '../../components/RadioGroupComponent'
+// import { err } from 'react-native-svg/lib/typescript/xml/'
 
 const ChildbirthOutcomeScreen = ({navigation}) => {
 
-  const {userId, SaveDoc, saveDocLoading} = useContext(GbstContext);
+  // const {userId, SaveDoc, saveDocLoading} = useContext(GbstContext);
 
   const [loading, setLoading] = useState(false);
-  const [weight, setWeight] = useState('');
+  const [weight, setWeight] = useState(0);
   const [bloodSugar, setBloodSugar] = useState('');
   const [gestation, setGestation] = useState('');
   const [deliverymode, setDeliveryMode] = useState('');
   const [childbirthOutcome, setChildbirthOutcome] = useState('');
   const [bloodSugarAfterSixweeks, setBloodSugarAfterSixweeks] = useState('');
+
+  const childbirth_mode_data = [{id:1, label:"Yes"},{id:2, label:"No"}]
+  const childbirth_outcome_data = [{id:1, label:"Alive"},{id:2, label:"Stillbirth"}, {id:3, label:"Abort"}, {id:1, label:"Matertnal Mortality"}]
+
+  let status_bar_height = StatusBar.currentHeight;
 
   const SaveChildBirth = () => {
     if (!deliverymode) {
@@ -41,21 +47,32 @@ const ChildbirthOutcomeScreen = ({navigation}) => {
     } else if (!bloodSugarAfterSixweeks) {
       Alert.alert("", "Input bloodSugar result six weeks after childbirth")
     } else {
+      setLoading(true)
       const chilbirthDoc = {
         'deliverymode': deliverymode,
-        'weight': weight,
+        'weight': parseInt(weight),
         'childbirthOutcome': childbirthOutcome,
         'bloodSugar': bloodSugar,
-       ' bloodSugarAfterSixweeks': bloodSugarAfterSixweeks
+        'bloodSugarAfterSixweeks': bloodSugarAfterSixweeks
+       
       }
-      SaveDoc("ChildbirthOutComeScren", userId, chilbirthDoc)
+      fetch("http://gbstaiapp.pythonanywhere.com/child_birth_outcome/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(chilbirthDoc)
+      }).then(response => response.json()).then(result => {
+        Alert.alert("", result.message)
+        setLoading(false)
+      }).catch(error => {
+        Alert.alert("", error.message)
+        setLoading(false)
+      })
+      // SaveDoc("ChildbirthOutComeScren", userId, chilbirthDoc)
     }
   }
 
-  const childbirth_mode_data = [{id:1, label:"Yes"},{id:2, label:"No"}]
-  const childbirth_outcome_data = [{id:1, label:"Alive"},{id:2, label:"Stillbirth"}, {id:3, label:"Abort"}, {id:1, label:"Matertnal Mortality"}]
-
-  let status_bar_height = StatusBar.currentHeight;
 
   return (
     <ScrollView  style={{backgroundColor:"#f5f5f5"}}>
@@ -65,13 +82,13 @@ const ChildbirthOutcomeScreen = ({navigation}) => {
         
         <CustomHeader background_color='#F6C25D' navHome={() => navigation.navigate("Home")} toggleDrawer={() => navigation.dispatch(DrawerActions.toggleDrawer())}/>
         {/* screen title */}
-        <CustomTextBold style={{fontSize:28, fontWeight:"800", backgroundColor:"rgba(176, 118, 3, 0.589)", paddingHorizontal:10, paddingVertical:3, color:"#fff", position:"absolute", left:16, bottom:16}}>Obstetric History</CustomTextBold>
+        <CustomTextBold style={{fontSize:28, fontWeight:"800", backgroundColor:"rgba(176, 118, 3, 0.589)", paddingHorizontal:10, paddingVertical:3, color:"#fff", position:"absolute", left:16, bottom:16}}>Childbirth Outcome</CustomTextBold>
       </View>
     </ImageBackground>
 
     <View style={{paddingHorizontal:16}}>
      
-     <Text>userId = {userId}</Text>
+     {/* <Text>userId = {userId}</Text> */}
       {/* mode of delivery */}
       <FormTextFieldLabel text ="Mode of delivery?"/>
       <View style={styles.container2}>
@@ -125,14 +142,14 @@ const ChildbirthOutcomeScreen = ({navigation}) => {
       <FormTextField 
         place_holder ="Blood sugar result six weeks after childbirth"
         onChangeText={(age) => setBloodSugarAfterSixweeks(age.trim())}
-
       />
 
       <Button 
         title='Submit' 
         btn_on_press={SaveChildBirth} 
         bg_color={"#F6C25D"} 
-        loading={saveDocLoading}
+        loading={loading}
+        spinner_color={"#fff"}
       />
     </View>
     

@@ -20,12 +20,16 @@ const LoadingScreen = ({navigation}) => {
     //     }, []);
 
     return (
+
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#00ff00" />
+        </View> 
     
-        <View  
-            style={{resizeMode:'cover' , flex: 1, height: windowHeight}}>
-            <ActivityIndicator size="large" color="#00ff00" style={{width:windowWidth/3, height:windowWidth/3, justifyContent:'center', alignItems:'center'}} />
+        // <View  
+        //     style={{resizeMode:'cover' , flex: 1, height: windowHeight}}>
+        //     <ActivityIndicator size="large" color="#00ff00" style={{width:windowWidth/3, height:windowWidth/3, justifyContent:'center', alignItems:'center'}} />
             
-        </View>
+        // </View>
     
     )
 }

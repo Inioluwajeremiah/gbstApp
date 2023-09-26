@@ -8,24 +8,30 @@ import Button from '../components/Button'
 import FormFooter from '../components/FormFooter'
 import CustomTextRegular from '../components/CustomTextRegular'
 import { GbstContext } from '../GbstContext'
+import { storeData } from '../helperfunctions'
 
 const SignInScreen = ({navigation}) => {
 
-  const {SignInUser, buttonSpinner} = useContext(GbstContext)
+  // const {SignInUser, buttonSpinner} = useContext(GbstContext)
 
   const [email, setEmail] = useState('');
   const [errorEmail, setErrorEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
+  const [loading, setLoading] = useState(false)
 
   const SignIn = () => {
 
+    setLoading(true)
+
     if (email.length < 10) {
       setErrorEmail("Enter a valid email address")
+      setLoading(false)
 
     } else if (userPassword.length < 8) {
       setErrorEmail("")
       setErrorPassword("Password length too short")
+      setLoading(false)
 
     } else{
       setErrorPassword("");
@@ -41,7 +47,32 @@ const SignInScreen = ({navigation}) => {
         navigation.navigate("Sign up")
       }
       
-      SignInUser(email, userPassword, onpress);
+      // SignInUser(email, userPassword, onpress);
+      fetch("http://gbstaiapp.pythonanywhere.com/signin/", {
+        method: "POST",
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'email':email,
+          'password':userPassword
+        })
+      }).then(response => response.json()).then(data => {
+        if (data.message == "Signin successful!") {
+          storeData("gbstaiapp_login", 'true')
+          Alert.alert("", data.message)
+          navigation.navigate('HomeNav')
+          setLoading(false)
+        } else {
+          Alert.alert("", data.message)
+          setLoading(false)
+        }
+       
+      }).catch(error => {
+        console.log(error)
+        setLoading(false)
+      })
       
     } //ends else
   
@@ -78,7 +109,7 @@ const SignInScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <FormFooter desc_text_2 = {'Don\'t have an account?'} redirect_text_2 ="Sign Up" btn_on_press_2 ={()=> SignIn()}
-          redirect_on_press_2={() => navigation.navigate("Sign up")} btn_text2 ={"Sign In"} loading={buttonSpinner}
+          redirect_on_press_2={() => navigation.navigate("Sign up")} btn_text2 ={"Sign In"} loading={loading}
       />
       </View>
 

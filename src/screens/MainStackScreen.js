@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import SignUpScreen from './SignUpScreen'
 import SignInScreen from './SignInScreen'
@@ -7,7 +7,8 @@ import HomeNavScreen from './HomeNavScreen'
 import { GbstContext } from '../GbstContext'
 import LoadingScreen from './LoadingScreen'
 import HomeSplashScreen from './HomeSplashScreen'
-import { StatusBar } from 'react-native';
+import { Alert, StatusBar } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Stack = createNativeStackNavigator()
 
@@ -28,14 +29,7 @@ const MainStackScreen = () => {
         and use to query link and check whether user is authenticated or not 
     */}
 
-    const {authStatus, GetDoc, localUserId, userId, loadingAuth} = useContext(GbstContext);
-
-    // const userId = userObject.uid;
-
-    useEffect(() => {
-        GetDoc("authenticatedUsers")
-    }, [])
-    console.log("authStatus stat =>  ", authStatus);
+    const {authStatus, GetDoc, localUserId, userId, loadingAuth, userloginStatus} = useContext(GbstContext);
 
   return (
 
@@ -44,16 +38,8 @@ const MainStackScreen = () => {
 
             {/* if userobject show nav if not refer to sign in as the first screen */}
         {
-            loadingAuth ? 
-                <Stack.Screen
-                        name="LoadingScreen" 
-                        options={{
-                            headerShown: false,
-                        }}
-                        component={LoadingScreen} 
-                /> 
-            :
-           authStatus == true && userId ? 
+    
+           userloginStatus == true && !loadingAuth ? 
                 //  !userObject ? 
                 <Stack.Screen
                     name="HomeNav"  
@@ -67,23 +53,6 @@ const MainStackScreen = () => {
              :
 
             <> 
-                {/* <Stack.Screen
-                    name="LoadingScreen" 
-                    options={{
-                        headerShown: false,
-                    }}
-                    component={LoadingScreen} 
-                /> */}
-                {/* <Stack.Screen 
-                    name="SplashScreen"
-                    options={{
-                        headerShown: false,
-                        headerStatusBarHeight: StatusBar.currentHeight,
-                        headerStatusBarColor: "#c026d3",
-                        headerTintColor: '#fff'
-                    }}
-                    component={HomeSplashScreen} 
-                /> */}
                  <Stack.Screen
                     name="Sign in" 
                     options={{
@@ -112,8 +81,6 @@ const MainStackScreen = () => {
             </>
         }
     </Stack.Navigator>
-
-    
   )
 }
 

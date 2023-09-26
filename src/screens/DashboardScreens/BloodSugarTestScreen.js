@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import CustomTextBold from '../../components/CustomTextBold'
 import { status_bar_height, windowWidth } from '../../Dimensions'
 import CustomTextRegular from '../../components/CustomTextRegular'
@@ -8,11 +8,12 @@ import Button from '../../components/Button'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { Circle, G, Mask, Path, Svg } from 'react-native-svg'
 import DOMPurify from 'dompurify';
+import RadioButton from '../../components/RadioGroupComponent'
 
 
 const BloodSugarTestScreen = () => {
 
-  const {userId, SaveDoc, saveDocLoading} = useContext(GbstContext);
+  // const {userId, SaveDoc, saveDocLoading} = useContext(GbstContext);
 
   const [progress, setProgress] = useState(89);
   const [age, setAge] = useState('')
@@ -21,10 +22,13 @@ const BloodSugarTestScreen = () => {
   const [religion, setReligion] = useState('')
   const [ethnicity, setEthnicity] = useState('')
   const [occupation, setOccupation] = useState('')
+  const [bloodSugarLevel, setBloodSugarLevel] = useState('')
+  const [loading, setLoading] =useState(false)
   
 
   const SubmitData = ()  => {
-    fetch ('', {
+    setLoading(true)
+    fetch ('http://gbstaiapp.pythonanywhere.com//blood_sugar_test/', {
       method: "POST",
       body: JSON.stringify({
         age:age,
@@ -35,8 +39,10 @@ const BloodSugarTestScreen = () => {
         occupation:occupation
       }).then(prom => prom.json()).then(result => {
         Alert.alert("", `${result.message}`)
+        setLoading(false)
       }).catch(error => {
         Alert.alert("", `${error}`)
+        setLoading(false)
       })
     })
   }
@@ -95,10 +101,22 @@ const BloodSugarTestScreen = () => {
                      
           </View>
         )}
+        <View style={styles.container2}>
+          {
+            arraydata.map((item, index) => 
+              <RadioButton key={index}
+                label={item.label}
+                selected={bloodSugarLevel === `${item.label}`}
+                onPress={() => setBloodSugarLevel(`${item.label}`)}
+              />
+            )
+          }
+        </View>
+        {/* <MyRadioGroup array={arraydata} field_name={"blood_sugar_test"} sub_field_name={"test_blood_sugar"}/> */}
 
-        <MyRadioGroup array={arraydata} field_name={"blood_sugar_test"} sub_field_name={"test_blood_sugar"}/>
-
-        <Button title={"Get Result"} bg_color={"#6295E2"}/>
+        <Button title={"Get Result"} bg_color={"#6295E2"} 
+          loading={loading} spinner_color={'#fff'}
+        />
 
         <CustomTextBold style={{fontSize:20, color:"#CDCFCE"}}>Results</CustomTextBold>
 
@@ -146,5 +164,23 @@ const BloodSugarTestScreen = () => {
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  container2: {
+   backgroundColor: 'white',
+   borderRadius: 8,
+   padding: 16,
+   marginBottom: 16,
+   marginHorizontal:16,
+   shadowColor: '#000',
+   shadowOpacity: 0.2,
+   shadowOffset: {
+     width: 0,
+     height: 2,
+   },
+   shadowRadius: 2,
+   elevation: 2
+ },
+ })
 
 export default BloodSugarTestScreen
