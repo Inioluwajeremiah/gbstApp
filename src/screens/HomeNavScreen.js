@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react'
+import React, { useContext } from 'react'
 import { Alert, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { DrawerContentScrollView, DrawerItem, DrawerItemList, createDrawerNavigator} from '@react-navigation/drawer';
 import { DrawerActions } from '@react-navigation/native';
@@ -17,11 +17,14 @@ import DashboardStackScreen from './DashboardScreens/DashboardStackScreen';
 import { useRoute } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import CustomTextRegular from '../components/CustomTextRegular';
+import { GbstContext } from '../GbstContext';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 const HomeNavScreen = ({navigation}) => {
+
+  const {fullName, retrievedEmail, profileImageUri} = useContext(GbstContext)
 
   const routeHook = useRoute()
 
@@ -102,10 +105,13 @@ const CustomHeaderTitle = (title) => {
               
                 <View style={{display:'flex', flexDirection:'row', justifyContent: 'space-between', backgroundColor: '#66ca98', borderRadius:8, paddingHorizontal:16, paddingVertical:24, margin:20}} className="bg-acpGreen">
                   <View style={{display:'flex', flexDirection:'row', justifyContent: 'space-between'}}>
-                    <Image source={require('../../assets/icon.png')} style={{height:30, width:30, marginRight:5}}></Image>
+                    <Image source={ profileImageUri ? {uri: `${profileImageUri}`} : require('../../assets/icon.png')} 
+                      style={{height:30, width:30, marginRight:5, borderRadius:15}}>
+
+                      </Image>
                     <View>
-                      <CustomTextRegular style={{fontSize:14, color:"#fff"}}>Full name</CustomTextRegular>
-                      <CustomTextRegular style={{fontSize:12, color:"#fff"}}>fullname@gmail.com</CustomTextRegular>
+                      <CustomTextRegular style={{fontSize:12, color:"#fff"}}>{fullName}</CustomTextRegular>
+                      <CustomTextRegular style={{fontSize:10, color:"#fff"}}>{retrievedEmail}</CustomTextRegular>
                     </View>
                   </View>
                   <TouchableOpacity style={{justifyContent:'center', padding:5}}>

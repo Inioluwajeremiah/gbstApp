@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import CustomTextRegular from '../../components/CustomTextRegular'
 import CustomTextBold from '../../components/CustomTextBold'
 import { Circle, Path, Svg } from 'react-native-svg'
 import { status_bar_height } from '../../Dimensions'
+import { GbstContext } from '../../GbstContext'
 
 const SupportScreen = () => {
+
+  const {fullName} = useContext(GbstContext)
   return (
     <ScrollView style={{backgroundColor:"#f5f5f5"}}>
       <View style={{paddingHorizontal:16}}>
-        <CustomTextBold style={{color:"#CDCFCE", marginTop:status_bar_height+40, fontSize:24, marginBottom:30}}>Hey Johnson,</CustomTextBold>
+        <CustomTextBold style={{color:"#CDCFCE", marginTop:status_bar_height+40, fontSize:24, marginBottom:30}}>Hey {fullName.split(' ')[0]},</CustomTextBold>
         
         <CustomTextRegular style={{color:"#717171", fontSize:14, textAlign:"center"}}>
           Do you have any question or remarks? Just write us or message!

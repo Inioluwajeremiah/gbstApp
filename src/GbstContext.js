@@ -4,7 +4,7 @@ import { getAuth, onAuthStateChanged,updateProfile, createUserWithEmailAndPasswo
   updatePassword, sendPasswordResetEmail } from "firebase/auth";
 // import firebase module
 import { getFirestore, collection, getDocs, setDoc, getDoc, doc } from "firebase/firestore";
-import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { getStorage, ref, getDownloadURL, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import { Email } from '../smtp';
 // import { app } from '../firebaseConfig';
 import { Alert } from 'react-native';
@@ -49,42 +49,18 @@ const GbstContextProvider = ({children}) => {
   const [authStatus, setAuthStatus] = useState(false)
   const [localUserId, setLocalUserId] = useState('');
   const [userloginStatus, setUserLoginStatus] = useState(false)
-
+  const [profileImageUri, setProfileImageUri] = useState(false)
+  const [fullName, setFullName] = useState('')
+  const [retrievedEmail, setRetrievedEmail] = useState('')
   const [saveDocToFirebaseLoading, setSaveDocToFirebaseLoading] = useState(false)
+  const [nextScheduleDate, setNextSheduleDate] = useState('')
+  const [gbstResult, setGbstResult] = useState('')
 
   let user_id = ''
 
   /* set doc to firestore  
     use path1 as general path (e.g. name of screen), path2 is userId
   */
-
-    useEffect(() => {
-      // authorize user
-      const unsubscribe = 
-      onAuthStateChanged(auth, (user) => {
-        console.log(user, "user");
-        if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/firebase.User
-            const uid = user.uid;
-            console.log('auth user => ', user);
-            user_id = uid;
-            setUserId(uid);
-            setUserObject(user)
-            setLoadingAuth(false)
-        } else {
-          Alert.alert("", )
-          setLoadingAuth(false)
-        }
-      })
-
-      // getData('userId');
-      // getData('userLogIn')
-      getData('gbstaiapp_login')
-      
-      return () => unsubscribe();
-    
-  }, [onAuthStateChanged])  // ends useEffect
   
   const SaveDoc = (path1, path2, object) => {
     setSaveDocLoading(true)
@@ -102,7 +78,16 @@ const GbstContextProvider = ({children}) => {
     }
 }
 
+// const getProfileImage = () => {
+//   fetch('', {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json"
+//     }
+//   }).then(response => response.json()).then(result => {
 
+//   })
+// }
 
   // retrieve saved docs in firebase
   const GetDoc = async (path1) => {
@@ -164,7 +149,38 @@ const GbstContextProvider = ({children}) => {
     Alert.alert("Error", `${e.message}`)
     setLoadingAuth(false)
     }
-}   
+  }   
+
+  const getProfileImage = async() => {
+    try {
+          const value = await AsyncStorage.getItem('gbstaiapp_profile_img_uri')
+          if (!value || value == null) {
+              setProfileImageUri('')
+          } 
+          if (value) {
+              setProfileImageUri(value)
+              console.log("remote image => ", value);
+          }
+      } catch(e) {
+      Alert.alert("Error", `${e.message}`)
+    }
+  }
+
+  const getFullname = () => {
+    fetch("http://gbstaiapp.pythonanywhere.com/profile/fullname").then(resp => resp.json()).then(result => {
+      setRetrievedEmail(result.email)  
+    setFullName(result.fullname)
+    console.log("retrievedEmail => ", result.email);
+    })
+    
+  }
+
+  // get prediction result
+  const getGbstResult = () => {
+    fetch("http://gbstaiapp.pythonanywhere.com/predict/get_result").then(resp => resp.json()).then(result => {
+      setGbstResult(result.message)  
+    })
+  }
 
   // send verification code
   const SendCode = (email) => {
@@ -480,14 +496,42 @@ const GbstContextProvider = ({children}) => {
       });
     }//ends else of authCodeStatus
   }
+
+  useEffect(() => {
+    // authorize user
+    const unsubscribe = 
+    onAuthStateChanged(auth, (user) => {
+      console.log(user, "user");
+      if (user) {
+
+          const uid = user.uid;
+          console.log('auth user => ', user);
+          user_id = uid;
+          setUserId(uid);
+          setUserObject(user)
+          setLoadingAuth(false)
+      } else {
+        // Alert.alert("", )
+        setLoadingAuth(false)
+      }
+    })
+    getData('gbstaiapp_login')
+    getProfileImage()
+    getFullname()
+    getGbstResult()
+    
+    return () => unsubscribe();
+  
+}, [onAuthStateChanged])  // ends useEffect
     
    
   return (
     <GbstContext.Provider 
         value={{
-          userId, loadingAuth, userObject, CreateUser,userloginStatus,
-          localUserId, getData, SaveDoc, saveDocLoading,
-          AuthenticateUser, SignInUser, buttonSpinner, GetDoc, authStatus
+          auth, userId, loadingAuth, userObject, CreateUser,userloginStatus, fullName, retrievedEmail,
+          localUserId, getData, SaveDoc, saveDocLoading, profileImageUri,  uploadBytesResumable,
+          AuthenticateUser, SignInUser, buttonSpinner, setDoc,  GetDoc, authStatus,
+          getStorage, ref, getDownloadURL, uploadBytes, updateProfile, gbstResult
         }}
     >
       {children}

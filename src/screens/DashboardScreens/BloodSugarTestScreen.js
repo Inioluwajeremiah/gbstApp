@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import CustomTextBold from '../../components/CustomTextBold'
 import { status_bar_height, windowWidth } from '../../Dimensions'
 import CustomTextRegular from '../../components/CustomTextRegular'
@@ -9,11 +9,13 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { Circle, G, Mask, Path, Svg } from 'react-native-svg'
 import DOMPurify from 'dompurify';
 import RadioButton from '../../components/RadioGroupComponent'
+import { GbstContext } from '../../GbstContext'
 
 
 const BloodSugarTestScreen = () => {
 
   // const {userId, SaveDoc, saveDocLoading} = useContext(GbstContext);
+  const {fullName} = useContext(GbstContext)
 
   const [progress, setProgress] = useState(89);
   const [age, setAge] = useState('')
@@ -28,8 +30,8 @@ const BloodSugarTestScreen = () => {
 
   const SubmitData = ()  => {
     setLoading(true)
-    fetch ('http://gbstaiapp.pythonanywhere.com//blood_sugar_test/', {
-      method: "POST",
+    fetch ('http://gbstaiapp.pythonanywhere.com/blood_sugar_test/', {
+      method: "GET",
       body: JSON.stringify({
         age:age,
         educationLevel:educationLevel,
@@ -47,6 +49,22 @@ const BloodSugarTestScreen = () => {
     })
   }
 
+  const GetGDMResult = () => {
+    setLoading(true)
+    fetch("http://gbstaiapp.pythonanywhere.com/predict/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(response => response.json()).then(result => {
+      Alert.alert("", result.message)
+      setLoading(false)
+    }).catch(error => {
+      Alert.alert("", error.message)
+      setLoading(false)
+    })
+  }
+
   const testIndicatorsData = [
     {id:1, label:"A1C Test", type:[{label:"Normal", data:"Below 5.7%",color:"#76D4A5"}, {label:"Prediabetes", data:"5.7 - 6.4%", color:"#F6C25D"}, {label:"Diabetes", data:"6.5% or above", color:"#FF6C52"}]},
     {id:2, label:"Fasting Blood Sugar Test", type:[{label:"Normal", data:"99mg/dl or below",color:"#76D4A5"}, {label:"Prediabetes", data:"100 - 125mg/dl", color:"#F6C25D"}, {label:"Diabetes", data:"126mg/dl or above", color:"#FF6C52"}]},
@@ -57,7 +75,7 @@ const BloodSugarTestScreen = () => {
   return (
     <ScrollView style={{backgroundColor:"#f5f5f5"}}>
       <View style={{paddingHorizontal:16}}>
-        <CustomTextBold style={{color:"#CDCFCE", marginTop:status_bar_height+40, fontSize:24, marginBottom:20}}>Hey Johnson,</CustomTextBold>
+        <CustomTextBold style={{color:"#CDCFCE", marginTop:status_bar_height+40, fontSize:24, marginBottom:20}}>Hey {fullName.split(' ')[0]},</CustomTextBold>
         
         {
           testIndicatorsData.map((item, index) => 
@@ -114,7 +132,7 @@ const BloodSugarTestScreen = () => {
         </View>
         {/* <MyRadioGroup array={arraydata} field_name={"blood_sugar_test"} sub_field_name={"test_blood_sugar"}/> */}
 
-        <Button title={"Get Result"} bg_color={"#6295E2"} 
+        <Button title={"Get Result"} bg_color={"#6295E2"} btn_on_press={GetGDMResult}
           loading={loading} spinner_color={'#fff'}
         />
 

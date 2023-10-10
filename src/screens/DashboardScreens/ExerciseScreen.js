@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Accelerometer } from 'expo-sensors';
 import CustomTextBold from '../../components/CustomTextBold'
@@ -11,9 +11,12 @@ import tennis from '../../../assets/tennis.png'
 import sleep from '../../../assets/sleep.png'
 import mediate from '../../../assets/mediate.png'
 import bread from '../../../assets/bread.png'
+import { GbstContext } from '../../GbstContext';
 
 
 const ExerciseScreen = ({navigation}) => {
+
+  const {fullName} = useContext(GbstContext)
   
   const [start, setStart] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -68,7 +71,7 @@ const ExerciseScreen = ({navigation}) => {
   return (
     <ScrollView style={{backgroundColor:"#f5f5f5"}}>
       <View style={{paddingHorizontal:16}}>
-        <CustomTextBold style={{color:"#CDCFCE", marginTop:status_bar_height+40, fontSize:24, marginBottom:55}}>Hey Johnson,</CustomTextBold>
+        <CustomTextBold style={{color:"#CDCFCE", marginTop:status_bar_height+40, fontSize:24, marginBottom:55}}>Hey {fullName.split(' ')[0]},</CustomTextBold>
         <View  style={{display:'flex', flexDirection:'row', alignItems:'center', maxWidth:500, justifyContent:'space-between'}}>
           {
             week1_data.map((item, index) =>

@@ -8,10 +8,9 @@ import Checkbox from 'expo-checkbox';
 import FormFooter from '../components/FormFooter'
 import CustomTextRegular from '../components/CustomTextRegular'
 import { WebView } from 'react-native-webview';
-import { Email } from '../../smtp'
 import { GbstContext } from '../GbstContext'
 import { windowHeight, windowWidth } from '../Dimensions';
-import { storeData } from '../helperfunctions'
+import { isValidEmail, isValidPassword, storeData } from '../helperfunctions'
 
 // import firebase modules
 // import { app } from '../../firebaseConfig';
@@ -36,28 +35,6 @@ const SignUpScreen = ({navigation}) => {
   const [checkError, setCheckError] = useState('')
   const [loading, setLoading] = useState(false)
 
-   // validate email
-   const isValidEmail = (email) => {
-    // Regular expression for validating email addresses
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  }
-
-  function isValidPassword(password) {
-    // Define your password validation criteria
-    const minLength = 8;
-    const containsUppercase = /[A-Z]/.test(password);
-    const containsLowercase = /[a-z]/.test(password);
-    const containsDigit = /[0-9]/.test(password);
-    const containsSpecial = /[!@#$%^&*()_+\-=\[\]{}|;:',.<>?~]/.test(password);
-  
-    return (
-      password.length >= minLength &&
-      containsUppercase &&
-      containsLowercase &&
-      containsDigit && containsSpecial
-    );
-  }
   
   const LoadingSpinner = () => {
     return (

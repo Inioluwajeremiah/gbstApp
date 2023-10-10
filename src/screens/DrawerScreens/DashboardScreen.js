@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Text, View, ScrollView, StyleSheet, StatusBar } from 'react-native'
 import CustomTextBold from '../../components/CustomTextBold'
 import CustomTextRegular from '../../components/CustomTextRegular'
@@ -9,8 +9,11 @@ import PregIconComponent from '../../../assets/PregIcon'
 import ChildSvgComponent from '../../../assets/ChildIcon'
 import DietComponent from '../../../assets/DietIcon'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { GbstContext } from '../../GbstContext'
 
 const DashboardScreen = ({navigation}) => {
+
+  const {fullName, gbstResult} = useContext(GbstContext)
 
   const DashboardItems = [
     {
@@ -87,8 +90,9 @@ const DashboardScreen = ({navigation}) => {
 
   return (
     <ScrollView style={{backgroundColor:"#f5f5f5"}}>
-      <CustomTextBold style={{fontSize:28, lineHeight:38, textAlign:'center', paddingHorizontal:10, marginTop:StatusBar.currentHeight+80}}>Welcome, SEYI!</CustomTextBold>
-      <View style={{flexDirection:"row", justifyContent:'center', alignItems:'center'}}>
+      <CustomTextBold style={{fontSize:28, lineHeight:38, textAlign:'center', paddingHorizontal:10, marginTop:StatusBar.currentHeight+80}}>Welcome, {fullName.split(' ')[0]}</CustomTextBold>
+      {/* display user's location */}
+      {/* <View style={{flexDirection:"row", justifyContent:'center', alignItems:'center'}}>
         <Svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <Path d="M6.00002 7.00004C6.36669 7.00004 6.68069 6.86937 6.94202 6.60804C7.20291 6.34715 7.33335 6.03337 7.33335 5.66671C7.33335 5.30004 7.20291 4.98604 6.94202 4.72471C6.68069 4.46382 6.36669 4.33337 6.00002 4.33337C5.63335 4.33337 5.31958 4.46382 5.05869 4.72471C4.79735 4.98604 4.66669 5.30004 4.66669 5.66671C4.66669 6.03337 4.79735 6.34715 5.05869 6.60804C5.31958 6.86937 5.63335 7.00004 6.00002 7.00004ZM6.00002 11.9C7.35558 10.6556 8.36113 9.52493 9.01669 8.50804C9.67224 7.4916 10 6.58893 10 5.80004C10 4.58893 9.6138 3.59715 8.84135 2.82471C8.06935 2.05271 7.12224 1.66671 6.00002 1.66671C4.8778 1.66671 3.93046 2.05271 3.15802 2.82471C2.38602 3.59715 2.00002 4.58893 2.00002 5.80004C2.00002 6.58893 2.3278 7.4916 2.98335 8.50804C3.63891 9.52493 4.64446 10.6556 6.00002 11.9ZM6.00002 13.4167C5.91113 13.4167 5.82224 13.4 5.73335 13.3667C5.64446 13.3334 5.56669 13.2889 5.50002 13.2334C3.8778 11.8 2.66669 10.4696 1.86669 9.24204C1.06669 8.01404 0.666687 6.86671 0.666687 5.80004C0.666687 4.13337 1.20291 2.8056 2.27535 1.81671C3.34735 0.827818 4.58891 0.333374 6.00002 0.333374C7.41113 0.333374 8.65269 0.827818 9.72469 1.81671C10.7971 2.8056 11.3334 4.13337 11.3334 5.80004C11.3334 6.86671 10.9334 8.01404 10.1334 9.24204C9.33335 10.4696 8.12224 11.8 6.50002 13.2334C6.43335 13.2889 6.35558 13.3334 6.26669 13.3667C6.1778 13.4 6.08891 13.4167 6.00002 13.4167Z" fill="#A7A6A5"/>
           </Svg>
@@ -97,7 +101,7 @@ const DashboardScreen = ({navigation}) => {
           {'Oyo,'}{' Nigeria'}
         </CustomTextRegular>
 
-      </View>
+      </View> */}
 
       {/* Navigation grid */}
       <View style={{maxWidth:500, flexDirection:'row', flexWrap:'wrap', justifyContent:"center", paddingLeft:"2%"}}>

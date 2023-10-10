@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
 import CustomTextRegular from '../../components/CustomTextRegular'
 import CustomTextBold from '../../components/CustomTextBold'
 import girl_exercise from '../../../assets/tennis.png'
 import { status_bar_height, windowHeight } from '../../Dimensions'
 import about from '../../../assets/about.jpg'
+import { GbstContext } from '../../GbstContext'
 
 const AboutScreen = () => {
+
+  const {fullName} = useContext(GbstContext)
 
   const new_height = windowHeight/4
 
@@ -14,7 +17,7 @@ const AboutScreen = () => {
   return (
     <ScrollView style={{backgroundColor:"#f5f5f5"}}>
       <View style={{paddingHorizontal:16, marginBottom:20}}>
-        <CustomTextBold style={{color:"#CDCFCE", marginTop:status_bar_height+40, fontSize:24, marginBottom:20}}>Hey Johnson,</CustomTextBold>
+        <CustomTextBold style={{color:"#CDCFCE", marginTop:status_bar_height+40, fontSize:24, marginBottom:20}}>Hey {fullName.split(' ')[0]},</CustomTextBold>
         {/* image background */}
           <ImageBackground source={about} resizeMode='cover' style={{width:"100%", flex:1, alignItems:'center', justifyContent:"center", height:new_height,  overflow:'hidden', borderRadius:18, marginBottom:30}}>
             {/* text */}

@@ -1,23 +1,28 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import CustomTextBold from '../../components/CustomTextBold'
 import CustomTextRegular from '../../components/CustomTextRegular'
 import { Circle, ClipPath, Defs, G, Mask, Path, Rect, Svg } from 'react-native-svg'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import { status_bar_height, windowWidth } from '../../Dimensions'
+import Barchart from '../../components/BarCharts'
+import { GbstContext } from '../../GbstContext'
 
 const ReportScreen = () => {
+
+  const {fullName, gbstResult} = useContext(GbstContext)
 
   const [progress, setProgress] = useState(60);
 
   return (
     <ScrollView style={{backgroundColor:"#f5f5f5"}}>
       <View style={{paddingHorizontal:16}}>
-        <CustomTextBold style={{color:"#CDCFCE", marginTop:20, fontSize:24, marginBottom:55}}>Hey Johnson,</CustomTextBold>
+        <CustomTextBold style={{color:"#CDCFCE", marginTop:20, fontSize:24, marginBottom:55}}>Hey {fullName.split(' ')[0]},</CustomTextBold>
         
         {/* graph card */}
         <View style={{width:"100%", maxWidth:500, height:310, backgroundColor:"#FFF7DC", borderRadius:20}}>
           <CustomTextBold style={{fontSize:20, color:"#898A8D", padding:10, textAlign:"center"}}>Blood Sugar Report for January</CustomTextBold>
+          <Barchart/>
         </View>
 
         {/* blood card */}
@@ -84,7 +89,7 @@ const ReportScreen = () => {
             arcSweepAngle={360}
           />
           <CustomTextRegular style={{fontSize:15, marginTop:15, color:"#fff"}}>
-            The last test shows your blood sugar is normal
+           {gbstResult}
           </CustomTextRegular>
         </View>
       </View>
