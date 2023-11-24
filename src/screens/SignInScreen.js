@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StatusBar, ScrollView, TouchableOpacity, View, Alert, StyleSheet, Text } from 'react-native'
 import FormHeader from '../components/FormHeader'
 import FormTitle from '../components/FormTitle'
@@ -9,6 +9,7 @@ import FormFooter from '../components/FormFooter'
 import CustomTextRegular from '../components/CustomTextRegular'
 import { GbstContext } from '../GbstContext'
 import { storeData } from '../helperfunctions'
+import { AppState } from 'react-native';
 
 const SignInScreen = ({navigation}) => {
 
@@ -19,34 +20,29 @@ const SignInScreen = ({navigation}) => {
   const [userPassword, setUserPassword] = useState('');
   const [errorPassword, setErrorPassword] = useState('');
   const [loading, setLoading] = useState(false)
+  const [signingInSuccess, setSigningInSuccess] = useState(false)
+
 
   const SignIn = () => {
-
     setLoading(true)
-
     if (email.length < 10) {
       setErrorEmail("Enter a valid email address")
       setLoading(false)
-
     } else if (userPassword.length < 8) {
       setErrorEmail("")
       setErrorPassword("Password length too short")
       setLoading(false)
-
     } else{
       setErrorPassword("");
       setErrorPassword("")
-
       // onpress: if successfull, navigate to home nave
       const onpress = () => {
         navigation.navigate('main')
       }
-
       // onpress: if user-not-found error navigate to sign up
       const onpresSignup = ()=> {
         navigation.navigate("Sign up")
       }
-      
       // SignInUser(email, userPassword, onpress);
       fetch("http://gbstaiapp.pythonanywhere.com/signin/", {
         method: "POST",
@@ -55,28 +51,40 @@ const SignInScreen = ({navigation}) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          'email':email,
+          'email':email.toLocaleLowerCase(),
           'password':userPassword
         })
       }).then(response => response.json()).then(data => {
         if (data.message == "Signin successful!") {
           storeData("gbstaiapp_login", 'true')
           Alert.alert("", data.message)
-          navigation.navigate('HomeNav')
+          setSigningInSuccess(true)
           setLoading(false)
+
         } else {
           Alert.alert("", data.message)
           setLoading(false)
         }
-       
       }).catch(error => {
         console.log(error)
         setLoading(false)
       })
-      
     } //ends else
-  
   } 
+
+  useEffect(() => {
+    // Check for sign-in success and reload when it occurs
+    if (signingInSuccess) {
+      const timer = setTimeout(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'signmain'}],
+        });
+      }, 600); // delay navigation for 3 seconds
+  
+      return () => clearTimeout(timer); // clear timeout on unmount
+    }
+  }, [signingInSuccess]);
 
   return (
     <KeyboardAvoidingView style={{flex:1, backgroundColor:"#f5f5f5"}}>

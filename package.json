@@ -7,7 +7,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest"
+    "test": "jest",
+    "doc": "react-doc-generator src/components -o DOCUMENTATION.md"
+
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
@@ -47,6 +49,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "react-doc-generator": "^1.2.8",
     "react-test-renderer": "^18.2.0"
   },
   "private": true,
