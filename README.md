@@ -1,6 +1,6 @@
 ﻿# gbstApp
 
-GBSTAPP predicts blood sugar level in pregnant women. It interacts with a machine learning model via a RESTful API. YoU Cn previwq the applicater [here](https://drive.google.com/file/d/15VY8VxDaZDuy_H5AaO-2QwCNN3zBKAsF/view?usp=drive_link).
+GBSTAPP predicts blood sugar level in pregnant women. It interacts with a machine learning model via a RESTful API. You can download [gbst.apk here](https://drive.google.com/file/d/15VY8VxDaZDuy_H5AaO-2QwCNN3zBKAsF/view?usp=drive_link).
 The screens of the application is as shown below;
 ### Splash Screen
 
